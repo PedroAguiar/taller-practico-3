@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Turno {
 
+    
     private Date date;
 
     public Turno() {

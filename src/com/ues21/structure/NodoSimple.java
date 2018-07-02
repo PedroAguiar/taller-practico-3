@@ -12,11 +12,14 @@ public class NodoSimple {
 
     public NodoSimple(Object dato) {
         this.dato = dato;
+        this.next = null;
     }
     public NodoSimple(Object dato, NodoSimple nodo) {
         this.dato = dato;
         this.next = nodo;
     }
+    
+    public boolean hasNext() { return this.next != null; }
 
     public Object getDato() {
         return this.dato;

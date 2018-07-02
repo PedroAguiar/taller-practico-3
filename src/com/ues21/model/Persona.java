@@ -6,14 +6,16 @@ public abstract class Persona {
 
     private UUID uuid = UUID.randomUUID();
     private String nombre;
-    private String appellido;
+    private String apellido;
+    private String DNI;
 
     public Persona() {
     }
 
-    public Persona(String nombre, String appellido) {
+    public Persona(String nombre, String apellido, String dni) {
         this.nombre = nombre;
-        this.appellido = appellido;
+        this.apellido = apellido;
+        this.DNI = dni;
     }
 
     public UUID getId() {
@@ -28,11 +30,19 @@ public abstract class Persona {
         this.nombre = nombre;
     }
 
-    public String getAppellido() {
-        return appellido;
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setAppellido(String appellido) {
-        this.appellido = appellido;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+    
+    public String getDNI() {
+        return DNI;
+    }
+    
+    public void setDNI(String DNI) {
+        this.DNI = DNI;
     }
 }

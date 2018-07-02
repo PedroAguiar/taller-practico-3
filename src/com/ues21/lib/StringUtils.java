@@ -1,4 +1,4 @@
-package com.taller.mecanico.lib;
+package com.ues21.lib;
 
 /**
  * Utility class that assists in string handling

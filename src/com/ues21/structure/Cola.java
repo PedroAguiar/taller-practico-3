@@ -2,38 +2,39 @@ package com.ues21.structure;
 
 import com.ues21.structure.exception.DesbordamientoInferior;
 
-public class Cola {
+public class Cola implements ICola {
 
     private NodoSimple first;
-    private NodoSimple last;
 
     public Cola() {
         this.first = null;
-        this.last = null;
     }
 
     public Cola(NodoSimple first, NodoSimple last) {
         this.first = first;
-        this.last = last;
     }
 
     public void put(Object x) {
         NodoSimple nuevo = new NodoSimple(x);
         if (isEmpty()) {
             first = nuevo;
-        } else {
-            last.setNext(nuevo);
-            last.getNext().setNext(null);
+        } else if (!first.hasNext()) {
+            first.setNext(nuevo);
+        } else if (first.hasNext()) {
+            NodoSimple aux = first.getNext();
+            while (aux.hasNext()) {
+                aux = aux.getNext();
+            }
+            aux.setNext(nuevo);
         }
     }
 
     public boolean isEmpty() {
-        return first == null && last == null;
+        return first == null;
     }
 
     public void clear() {
         first = null;
-        last = null;
     }
 
     public Object getFirst() throws DesbordamientoInferior {
@@ -48,5 +49,20 @@ public class Cola {
             throw new DesbordamientoInferior("La cola está vacía.");
         }
         first.setNext(first.getNext());
+    }
+    
+    public void listar() {
+        if (isEmpty()) {
+            System.out.println("La cola esta vacia");
+            return;
+        }
+        NodoSimple aux = this.first;
+        while(aux.hasNext()) {
+            System.out.println(aux.getDato() + ", ");
+            aux = aux.getNext();
+            if (!aux.hasNext()) {
+                System.out.println(aux.getDato());
+            }
+        }
     }
 }

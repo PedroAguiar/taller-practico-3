@@ -103,6 +103,18 @@ public class ListaDoblementeEnlazada implements IListaDoblementeEnlazada {
     }
 
     public void insertarMedio(NodoDoble next, NodoDoble prev, Object dato) {
-
+        if (isEmpty()) {
+            System.out.println("La lista esta vacia.");
+            return;
+        }
+        NodoDoble aux = this.inicio;
+        while (aux.getNext() != null) {
+            if (aux.getNext().getDato().equals(next.getDato()) && aux.getPrev().getDato().equals(prev.getDato())) {
+                NodoDoble nuevo = new NodoDoble(prev, dato, next);
+                next.setPrev(nuevo);
+                prev.setNext(nuevo);
+            }
+            aux = aux.getNext();
+        }
     }
 }

@@ -2,32 +2,39 @@ package com.ues21.model;
 
 public class Paciente extends Persona {
 
-    private String obraSocial = "Particular";
-    private Turno turno;
-
-
+    private ObraSocial obraSocial = ObraSocial.PARTICULAR;
+    
     public Paciente() {
     }
 
-    public Paciente(String nombre, String appellido, String obraSocial, Turno turno) {
-        super(nombre, appellido);
+    public Paciente(String nombre, String appellido, ObraSocial obraSocial, String dni) {
+        super(nombre, appellido, dni);
         this.obraSocial = obraSocial;
-        this.turno = turno;
     }
 
-    public String getObraSocial() {
+    public ObraSocial getObraSocial() {
         return obraSocial;
     }
 
-    public void setObraSocial(String obraSocial) {
+    public void setObraSocial(ObraSocial obraSocial) {
         this.obraSocial = obraSocial;
     }
-
-    public Turno getTurno() {
-        return turno;
-    }
-
-    public void setTurno(Turno turno) {
-        this.turno = turno;
+    
+    public String toString() {
+        return new StringBuilder(this.getClass().getSimpleName())
+                .append("=[")
+                .append("nombre= ")
+                .append(this.getNombre())
+                .append(", ")
+                .append("apellido= ")
+                .append(this.getApellido())
+                .append(", ")
+                .append("DNI= ")
+                .append(this.getDNI())
+                .append(", ")
+                .append("obrasocial= ")
+                .append(this.getObraSocial())
+                .append("]")
+                .toString();
     }
 }
