@@ -1,17 +1,13 @@
 package com.ues21.view;
 
-import com.ues21.model.Consultorio;
 import com.ues21.model.ObraSocial;
-
-import java.util.Arrays;
-import java.util.List;
+import com.ues21.structure.ListaDoblementeEnlazada;
 
 public class MenuView {
     
     public static void displayWelcomeForm() {
         System.out.println("Hola! Bienvenido a nuestro centro medico.");
-        System.out.println("Si usted ya es un paciente registrado porfavor ingrese su numero de documento de lo contrario presion 1 para registrarse" +
-                " o 0 para salir.");
+        System.out.println("Para registrarse presione 1, para listar los pacientes por consultorio presione 2 o presione 0 para salir.");
     }
 
     public static void displayClientRegistrationForm() {
@@ -27,12 +23,10 @@ public class MenuView {
         System.out.println("Porfavor, provea su DNI para proceder");
     }
     
-    public static void displaySelectConsultiorioForm(List<Consultorio> consultorios) {
-        System.out.println(String.format("Actualmente disponemos de %d consultorios.", consultorios.size()));
+    public static void displaySelectConsultiorioForm(ListaDoblementeEnlazada consultorios) {
+        System.out.println("Actualmente disponemos de 4 consultorios.");
         System.out.println("Porfavor seleccione uno de los siguientes consultorios.");
-        for(int index = 0; index < consultorios.size(); index++) {
-            System.out.printf("Consultorio %d en %s \n", index, consultorios.get(index).getNombre());
-        }
+        consultorios.listarAscendente();
     }
     
     private static String printObraSocialTypes() {

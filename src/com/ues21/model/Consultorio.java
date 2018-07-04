@@ -2,6 +2,7 @@ package com.ues21.model;
 
 import com.ues21.structure.Cola;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ public class Consultorio {
     
     public Consultorio(String nombre) {
         this.nombre = nombre;
+        this.turnos = new ArrayList<>();
     }
     
     public UUID getId() { return this.uuid; }
@@ -30,5 +32,13 @@ public class Consultorio {
     
     public String getNombre() {
         return nombre;
+    }
+    
+    @Override
+    public String toString() {
+        return new StringBuilder("[" + this.getClass().getSimpleName() + ": ")
+                .append("nombre= ").append(nombre).append(", ")
+                .append("turnos= ").append(turnos.toString()).append("]")
+                .toString();
     }
 }

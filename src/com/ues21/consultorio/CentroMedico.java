@@ -1,34 +1,54 @@
 package com.ues21.consultorio;
 
 import com.ues21.model.Consultorio;
+import com.ues21.model.Turno;
 import com.ues21.service.PatientService;
+import com.ues21.structure.ListaDoblementeEnlazada;
+import com.ues21.structure.NodoDoble;
 import com.ues21.view.MenuView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class CentroMedico {
     
-    private static final List<Consultorio> CONSULTORIOS = Arrays.asList(
-            new Consultorio("CENTRO"),
-            new Consultorio("VILLA ALLENDE"),
-            new Consultorio("ARGUELLO"),
-            new Consultorio("URCA")
-    );
+    private static final ListaDoblementeEnlazada CONSULTORIOS = new ListaDoblementeEnlazada();
+    
+    static {
+        CONSULTORIOS.insertarPrimero(new Consultorio("CENTRO"));
+        CONSULTORIOS.insertarUltimo(new Consultorio("VILLA ALLENDE"));
+        CONSULTORIOS.insertarUltimo(new Consultorio("ARGUELLO"));
+        CONSULTORIOS.insertarUltimo(new Consultorio("URCA"));
+    }
     
     public static void init() {
         while (true) {
             MenuView.displayWelcomeForm();
             Scanner scanner = new Scanner(System.in);
-            int option = scanner.nextInt();
-            switch (option) {
-                case 1:
-                    Consultorio consultorio = selectConsultorio();
-                    MenuView.displayClientRegistrationForm();
-                    PatientService.registerPatient(consultorio);
-                break;
+            try {
+                int option = scanner.nextInt();
+                switch (option) {
+                    case 1:
+                        Consultorio consultorio = selectConsultorio();
+                        MenuView.displayClientRegistrationForm();
+                        String dni = PatientService.registerPatient(consultorio);
+                        consultorio.getTurnos().add(new Turno(dni));
+                        break;
+                    case 2:
+                        listarPacientesPorConsultorio();
+                        break;
+                    case 0:
+                        System.exit(0);
+                    default:
+                        System.out.println("Opcion invalida, porfavor intentelo nuevamente.");
+                }
+            } catch (InputMismatchException e) {
+                init();
+                return;
             }
         }
     }
@@ -37,17 +57,32 @@ public class CentroMedico {
         MenuView.displaySelectConsultiorioForm(CONSULTORIOS);
         Scanner scanner = new Scanner(System.in);
         final int option = scanner.nextInt();
-        switch (option) {
-            case 0:
-                return CONSULTORIOS.get(0);
-            case 1:
-                return CONSULTORIOS.get(1);
-            case 2:
-                return CONSULTORIOS.get(2);
-            case 3:
-                return CONSULTORIOS.get(3);
-            default:
-                throw new IllegalArgumentException("Opcion no valida seleccion un consultorio valido");
+        try {
+            switch (option) {
+                case 0:
+                    return (Consultorio) CONSULTORIOS.getInicio().getDato();
+                case 1:
+                    return (Consultorio) CONSULTORIOS.getInicio().getNext().getDato();
+                case 2:
+                    return (Consultorio) CONSULTORIOS.getInicio().getNext().getNext().getDato();
+                case 3:
+                    return (Consultorio) CONSULTORIOS.getInicio().getNext().getNext().getNext().getDato();
+                default:
+                    throw new IllegalArgumentException("Opcion no valida seleccion un consultorio valido");
+            }
+        } catch (IllegalArgumentException e) {
+            return selectConsultorio();
+        }
+    }
+    
+    
+    private static void listarPacientesPorConsultorio() {
+        NodoDoble nodoDoble = CONSULTORIOS.getInicio();
+        while (nodoDoble != null) {
+            Consultorio consultorio = (Consultorio) nodoDoble.getDato();
+            System.out.println(consultorio.getNombre() + ": ");
+            consultorio.getPacientes().listar();
+            nodoDoble = nodoDoble.getNext();
         }
     }
 }

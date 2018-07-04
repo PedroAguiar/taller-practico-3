@@ -57,12 +57,9 @@ public class Cola implements ICola {
             return;
         }
         NodoSimple aux = this.first;
-        while(aux.hasNext()) {
+        while(aux != null) {
             System.out.println(aux.getDato() + ", ");
             aux = aux.getNext();
-            if (!aux.hasNext()) {
-                System.out.println(aux.getDato());
-            }
         }
     }
 }

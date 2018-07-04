@@ -1,5 +1,7 @@
 package com.ues21.structure;
 
+import com.ues21.model.Consultorio;
+
 public class ListaDoblementeEnlazada implements IListaDoblementeEnlazada {
 
     private NodoDoble inicio,fin;
@@ -84,9 +86,11 @@ public class ListaDoblementeEnlazada implements IListaDoblementeEnlazada {
             System.out.println("La lista esta vacia.");
         }
         NodoDoble aux = this.inicio;
+        int index = 0;
         while (aux != null) {
-            System.out.println(aux.getDato().toString());
+            System.out.printf("%d " + aux.getDato().toString() + "\n", index);
             aux = aux.getNext();
+            index++;
         }
     }
 
