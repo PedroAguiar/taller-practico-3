@@ -7,7 +7,8 @@ public enum ObraSocial {
     PARTICULAR(0),
     OSDE(1),
     SWISS_MEDICAL(2),
-    MET(3);
+    MET(3),
+    OTRA(4);
     
     public final int obraSocialId;
     

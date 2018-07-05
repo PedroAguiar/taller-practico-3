@@ -674,7 +674,7 @@ public final class Validate {
      */
     public static void containsOnlyLetters(final String[] values) {
         for (String value : values) {
-            containsOnlyLetters(value, DEFAULT_CONTAINS_INVALID_CHARACTERS_EX_MESSAGE);
+            containsOnlyLetters(value.replace(" ", ""), DEFAULT_CONTAINS_INVALID_CHARACTERS_EX_MESSAGE);
         }
     }
 

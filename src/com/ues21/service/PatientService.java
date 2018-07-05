@@ -34,9 +34,8 @@ public class PatientService {
     
     private static String persistPatient(String nombre, String appellido, String dni, ObraSocial obraSocial, Consultorio consultorio) {
         Paciente patient = new Paciente(nombre, appellido, obraSocial, dni);
-        consultorio.getPacientes().put(patient);
+        consultorio.getPacientes().insertarOrdenado(patient);
         System.out.println("Se ha registrado exitosamente: " + patient.toString());
-        consultorio.getPacientes().listar();
         return patient.getDNI();
     }
     
@@ -55,7 +54,7 @@ public class PatientService {
         Validate.notBlank(nombre, "Datos invalidos, Porfavor intentelo nuevamente");
         Validate.notBlank(apellido, "Datos invalidos, Porfavor intentelo nuevamente");
         Validate.notBlank(DNI, "Datos invalidos, Porfavor intentelo nuevamente");
-        Validate.containsOnlyLetters(new String[]{nombre.replace(" ", ""), apellido});
+        Validate.containsOnlyLetters(new String[]{nombre, apellido});
         Validate.isDNI(DNI);
         ObraSocial.findObraSocialType(Integer.valueOf(obraSocialType));
     }

@@ -7,11 +7,7 @@ import com.ues21.structure.ListaDoblementeEnlazada;
 import com.ues21.structure.NodoDoble;
 import com.ues21.view.MenuView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class CentroMedico {
@@ -19,7 +15,7 @@ public class CentroMedico {
     private static final ListaDoblementeEnlazada CONSULTORIOS = new ListaDoblementeEnlazada();
     
     static {
-        CONSULTORIOS.insertarPrimero(new Consultorio("CENTRO"));
+        CONSULTORIOS.insertar(new Consultorio("CENTRO"));
         CONSULTORIOS.insertarUltimo(new Consultorio("VILLA ALLENDE"));
         CONSULTORIOS.insertarUltimo(new Consultorio("ARGUELLO"));
         CONSULTORIOS.insertarUltimo(new Consultorio("URCA"));
@@ -77,12 +73,12 @@ public class CentroMedico {
     
     
     private static void listarPacientesPorConsultorio() {
-        NodoDoble nodoDoble = CONSULTORIOS.getInicio();
-        while (nodoDoble != null) {
-            Consultorio consultorio = (Consultorio) nodoDoble.getDato();
-            System.out.println(consultorio.getNombre() + ": ");
-            consultorio.getPacientes().listar();
-            nodoDoble = nodoDoble.getNext();
+        NodoDoble aux = CONSULTORIOS.getInicio();
+        while (aux != null) {
+            Consultorio consultorio = (Consultorio) aux.getDato();
+            System.out.println("Consultorio: " + consultorio.getNombre());
+            consultorio.getPacientes().listarAscendente();
+            aux = aux.getNext();
         }
     }
 }

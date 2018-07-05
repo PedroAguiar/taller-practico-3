@@ -95,7 +95,7 @@ public class ListaEnlazadaIter implements IListaIter {
                 while (aux != null) {
                     if (dato.equals(aux.getDato())) {
                         if (aux.getNext() != null) {
-                            list.insertarMedio(aux, aux.getPrev(), dato);
+                            list.insertarMedio(aux.getNext(), aux.getPrev(), dato);
                             return;
                         } else {
                             list.insertarPrimero(dato);
@@ -103,7 +103,7 @@ public class ListaEnlazadaIter implements IListaIter {
                         }
                     } else if (dato.equals(aux.getDato())) {
                         if (aux.getPrev() != null) {
-                            list.insertarMedio(aux, aux.getPrev(), dato);
+                            list.insertarMedio(aux.getNext(), aux.getPrev(), dato);
                             return;
                         } else {
                             list.insertarPrimero(dato);

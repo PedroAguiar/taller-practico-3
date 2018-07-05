@@ -1,20 +1,14 @@
 package com.ues21.structure;
 
-import com.ues21.model.Consultorio;
-
 public class ListaDoblementeEnlazada implements IListaDoblementeEnlazada {
 
-    private NodoDoble inicio,fin;
+    private NodoDoble inicio;
+    private NodoDoble fin;
 
     public ListaDoblementeEnlazada() {
-        this(null, null);
+        inicio = null;
+        fin = null;
     }
-
-    public ListaDoblementeEnlazada(NodoDoble inicio, NodoDoble fin) {
-        this.inicio = inicio;
-        this.fin = fin;
-    }
-
     public NodoDoble getInicio() {
         return this.inicio;
     }
@@ -23,38 +17,44 @@ public class ListaDoblementeEnlazada implements IListaDoblementeEnlazada {
         return this.fin;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.inicio == null;
     }
 
-    @Override
     public void vaciar() {
         this.inicio = null;
         this.fin = null;
     }
+    
+    public void insertar (Object dato) {
+        NodoDoble nvo = new NodoDoble (dato);
+        this.inicio = nvo;
+        this.fin = nvo;
+    }
 
-    public void insertarPrimero(Object data) {
-        if (isEmpty()) {
-            this.inicio = this.fin = new NodoDoble(data);
-        } else {
-            NodoDoble nuevo = new NodoDoble(null, data, this.inicio);
-            nuevo.getNext().setPrev(nuevo);
-            this.inicio = nuevo;
+    public void insertarPrimero (Object dato) {
+        if (isEmpty())
+            this.inicio = this.fin = new NodoDoble (dato);
+        else {
+            NodoDoble nvo = new NodoDoble (dato);
+            nvo.setNext(inicio);
+            nvo.setPrev(null);
+            nvo.getNext().setPrev(nvo);
+            this.inicio = nvo;
         }
     }
 
-    public void insertarUltimo(Object data) {
-        if (isEmpty()) {
-            this.inicio =  this.fin = new NodoDoble(data);
-        } else {
-            NodoDoble nuevo = new NodoDoble(this.fin, data, null);
-            nuevo.getPrev().setNext(nuevo);
-            this.fin = nuevo;
+    public void insertarUltimo (Object dato) {
+        if (isEmpty())
+            this.inicio = this.fin = new NodoDoble (dato);
+        else {
+            NodoDoble nvo = new NodoDoble (dato);
+            nvo.setNext(null);
+            nvo.setPrev(this.fin);
+            nvo.getPrev().setNext(nvo);
+            this.fin = nvo;
         }
     }
-
-
 
     public void eliminarPrimero() {
         this.inicio = this.inicio.getNext();
@@ -65,44 +65,73 @@ public class ListaDoblementeEnlazada implements IListaDoblementeEnlazada {
         this.fin = this.fin.getPrev();
         this.fin.setNext(null);
     }
-
-    public void eliminarMedio(NodoDoble next, NodoDoble prev) {
-        prev.setNext(next);
-        next.setPrev(prev);
-        next.getPrev().setNext(null);
-        prev.getNext().setNext(null);
+    
+    public void eliminarMedio (NodoDoble auxSig, NodoDoble auxAnt) {
+        auxAnt.setNext(auxSig);
+        auxSig.setPrev(auxAnt);
+        auxSig.getPrev().setPrev(null);
+        auxAnt.getNext().setNext(null);
     }
 
-    public void eliminarMedio(NodoDoble nodo) {
-        nodo.getPrev().setNext(nodo.getNext());
-        nodo.getNext().setPrev(nodo.getPrev());
-        nodo.setPrev(null);
-        nodo.setNext(null);
+    public void eliminarMedio(NodoDoble nodoAEliminar) {
+        nodoAEliminar.getPrev().setNext(nodoAEliminar.getNext());
+        nodoAEliminar.getNext().setPrev(nodoAEliminar.getPrev());
+        nodoAEliminar.setPrev(null);
+        nodoAEliminar.setNext(null);
     }
-
-    @Override
+    
     public void listarAscendente() {
         if (this.isEmpty()) {
-            System.out.println("La lista esta vacia.");
+            System.out.println ("La lista está vacía.");
         }
-        NodoDoble aux = this.inicio;
+        NodoDoble aux = this.getInicio();
         int index = 0;
         while (aux != null) {
-            System.out.printf("%d " + aux.getDato().toString() + "\n", index);
+            System.out.println(index++ + aux.getDato().toString());
             aux = aux.getNext();
-            index++;
         }
     }
-
-    @Override
+    
     public void listarDescendiente() {
         if (this.isEmpty()) {
-            System.out.println("La lista esta vacia.");
+            System.out.println ("La lista está vacía.");
+            return;
         }
-        NodoDoble aux = this.fin;
+        NodoDoble aux = this.getFin();
         while (aux != null) {
             System.out.println(aux.getDato().toString());
             aux = aux.getPrev();
+        }
+    }
+
+    public void insertarOrdenado(Object dato) {
+        if (dato != null) {
+            if (this.isEmpty()) {
+                this.insertarPrimero(dato);
+            } else {
+                NodoDoble nodoAux = this.getInicio();
+                while (nodoAux != null) {
+                    if((((Comparable) dato).compareTo(nodoAux.getDato())) < 0) {
+                        if(nodoAux.getPrev() != null) {
+                            this.insertarMedio(nodoAux, nodoAux.getPrev(), dato);
+                            return;
+                        } else {
+                            this.insertarPrimero(dato);
+                            return;
+                        }
+                    } else if (((Comparable) dato).compareTo(nodoAux.getDato()) == 0) {
+                        if(nodoAux.getPrev() != null) {
+                            this.insertarMedio(nodoAux, nodoAux.getPrev(), dato);
+                            return;
+                        } else {
+                            this.insertarPrimero(dato);
+                            return;
+                        }
+                    }
+                    nodoAux = nodoAux.getNext();
+                }
+                this.insertarUltimo(dato);
+            }
         }
     }
 
@@ -113,7 +142,8 @@ public class ListaDoblementeEnlazada implements IListaDoblementeEnlazada {
         }
         NodoDoble aux = this.inicio;
         while (aux.getNext() != null) {
-            if (aux.getNext().getDato().equals(next.getDato()) && aux.getPrev().getDato().equals(prev.getDato())) {
+            if (((Comparable) aux.getNext().getDato()).compareTo(next.getDato()) < 0 &&
+                ((Comparable) aux.getPrev().getDato()).compareTo(prev.getDato()) > 0) {
                 NodoDoble nuevo = new NodoDoble(prev, dato, next);
                 next.setPrev(nuevo);
                 prev.setNext(nuevo);

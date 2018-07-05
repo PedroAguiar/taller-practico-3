@@ -1,6 +1,6 @@
 package com.ues21.model;
 
-public class Paciente extends Persona {
+public class Paciente extends Persona implements Comparable {
 
     private ObraSocial obraSocial = ObraSocial.PARTICULAR;
     
@@ -37,4 +37,14 @@ public class Paciente extends Persona {
                 .append("]")
                 .toString();
     }
+
+    @Override
+    public int compareTo(Object o) {
+        Paciente paciente = (Paciente) o;
+        int thisDNI = Integer.valueOf(this.getDNI());
+        int thatDNI = Integer.valueOf(paciente.getDNI());
+        return Integer.compare(thisDNI, thatDNI);
+    }
+
+
 }
